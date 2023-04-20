@@ -1,7 +1,7 @@
-from flask import Flask
+from flask import Flask 
 
-
-def create_app(test_config=None):
+def create_app():
     app = Flask(__name__)
-
-    return app
+    from .routes.planet import planet_bp
+    app.register_blueprint(planet_bp)
+    return app 
