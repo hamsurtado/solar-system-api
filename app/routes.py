@@ -28,7 +28,7 @@ def get_planets():
             "has_water": planet.has_water            
         }
         
-    response.append(planet_dict)
+        response.append(planet_dict)
     
     return jsonify(response), 200
 
