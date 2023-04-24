@@ -17,7 +17,6 @@ planet_list = [planet1, planet2, planet3]
 planet_bp = Blueprint("planet", __name__, url_prefix="/planet")
 
 @planet_bp.route("", methods=["GET"])
-
 def get_planets():
     response = []
     for planet in planet_list:
