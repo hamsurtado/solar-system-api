@@ -31,7 +31,21 @@ def add_planet():
     
     return make_response(f"Planet {new_planet.name} with id {new_planet.id} successfully created", 201)
 
+@planet_bp.route("", methods=["GET"])
+def read_all_planets():
+    planets_response = []
+    planets = Planet.query.all()
+    for planet in planets:
+        planets_response.append(
+            {
+            "id": planet.id,
+            "name": planet.name,
+            "description": planet.description,
+            "has_water": planet.has_water
+            }
 
+        )
+    return jsonify(planets_response)
 
 
 # @planet_bp.route("", methods=["GET"])
