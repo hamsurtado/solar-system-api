@@ -36,16 +36,9 @@ def read_all_planets():
     planets_response = []
     planets = Planet.query.all()
     for planet in planets:
-        planets_response.append(
-            {
-            "id": planet.id,
-            "name": planet.name,
-            "description": planet.description,
-            "has_water": planet.has_water
-            }
-
-        )
-    return jsonify(planets_response)
+        planets_response.append(planet.to_dict())
+        
+    return jsonify(planets_response), 200
 
 
 # @planet_bp.route("", methods=["GET"])
