@@ -40,38 +40,15 @@ def read_all_planets():
         
     return jsonify(planets_response), 200
 
-
-# @planet_bp.route("", methods=["GET"])
-# def get_planets():
-#     response = []
-#     for planet in planet_list:
-#         planet_dict = {
-#             "id": planet.id,
-#             "name": planet.name,
-#             "description": planet.description,
-#             "has_water": planet.has_water            
-#         }
-        
-#         response.append(planet_dict)
+@planet_bp.route("/<planet_id>", methods=["GET"])
+def get_one_planet(planet_id):
+    try:
+        planet_id = int(planet_id)
+    except:
+        return {"message": f"invalid id: {planet_id}"}, 400
     
-#     return jsonify(response), 200
-
-# @planet_bp.route("/<id>", methods=["GET"])
-# def get_one_planet(id):
-#     try:
-#         planet_id = int(id)
-#     except:
-#         return {"message": f"invalid id: {id}"}, 400
+    planet = Planet.query.get_or_404(planet_id)
     
-#     for planet in planet_list:
-#         if planet_id == planet.id:
-#             return {
-#                 "id": planet.id,
-#                 "name": planet.name,
-#                 "description": planet.description,
-#                 "has_water": planet.has_water
-#             }
-    
-#     return {"message": f"id {planet_id} not found"}, 404        
+    return planet.to_dict(), 200       
         
 
