@@ -67,3 +67,17 @@ def update_planet(planet_id):
 
     db.session.commit()
     return {"mssg": f"planet {planet_id} successfully updated"}, 200
+
+@planet_bp.route("/<planet_id>", methods=["DELETE"])
+def delete_planet(planet_id):
+    try:
+        planet_id = int(planet_id)
+    except:
+        return {"message": f"invalid id: {planet_id}"}, 400
+    
+    planet = Planet.query.get_or_404(planet_id)
+    db.session.delete(planet)
+    db.session.commit()
+
+    return {"mssg": f"planet {planet_id} succesfully annihilated"}, 200
+    
