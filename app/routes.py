@@ -51,4 +51,19 @@ def get_one_planet(planet_id):
     
     return planet.to_dict(), 200       
         
+@planet_bp.route("/<planet_id>", methods=["PUT"])
+def update_planet(planet_id):
+    try:
+        planet_id = int(planet_id)
+    except:
+        return {"message": f"invalid id: {planet_id}"}, 400
+    
+    planet = Planet.query.get_or_404(planet_id)
+    request_data = request.get_json()
 
+    planet.name = request_data["name"]
+    planet.description = request_data["description"]
+    planet.has_water = request_data["has_water"]
+
+    db.session.commit()
+    return {"mssg": f"planet {planet_id} successfully updated"}, 200
