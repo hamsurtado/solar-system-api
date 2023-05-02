@@ -2,21 +2,6 @@ from app import db
 from app.models.planet import Planet
 from flask import Blueprint, jsonify, make_response, request, abort
 
-
-# class Planet:
-#     def __init__(self, id, name, description, has_water):
-#         self.id = id
-#         self.name = name
-#         self.description = description
-#         self.has_water = has_water
-        
-        
-# planet1 = Planet(35, "Mars", "red", True)
-# planet2 = Planet(65, "Jupiter", "orange", True)
-# planet3 = Planet(1, "Earth", "green", True)
-
-# planet_list = [planet1, planet2, planet3]
-
 planet_bp = Blueprint("planet", __name__, url_prefix="/planet")
 
 @planet_bp.route("", methods=["POST"])
@@ -33,9 +18,15 @@ def add_planet():
 
 @planet_bp.route("", methods=["GET"])
 def read_all_planets():
+    name_query = request.args.get("name")
+    if name_query is None:
+        all_planets = Planet.query.all()
+        
+    else:
+        all_planets = Planet.query.filter_by(name=name_query)
+    
     planets_response = []
-    planets = Planet.query.all()
-    for planet in planets:
+    for planet in all_planets:
         planets_response.append(planet.to_dict())
         
     return jsonify(planets_response), 200
