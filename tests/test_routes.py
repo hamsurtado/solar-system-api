@@ -9,9 +9,8 @@ def test_get_all_planets_with_no_records(client):
     # Assert
     assert response.status_code == 200
     assert response_body == []
-
-# @pytest.mark.skip()    
-def test_get_one_planet(client):
+    
+def test_get_one_planet_gets_404(client):
     # Act
     response = client.get("/planet/1")
     response_body = response.get_json()
