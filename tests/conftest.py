@@ -36,3 +36,5 @@ def three_saved_planets(app):
     db.session.add_all([planet_Mars, planet_Jupiter, planet_Earth])
     
     db.session.commit()
+
+    return [planet_Mars.to_dict(), planet_Jupiter.to_dict(), planet_Earth.to_dict()]

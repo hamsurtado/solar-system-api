@@ -1,6 +1,6 @@
 import pytest
 
-@pytest.mark.skip
+# @pytest.mark.skip
 def test_get_all_planets_with_no_records(client):
     # Act
     response = client.get("/planet")
@@ -10,7 +10,7 @@ def test_get_all_planets_with_no_records(client):
     assert response.status_code == 200
     assert response_body == []
 
-@pytest.mark.skip    
+# @pytest.mark.skip()    
 def test_get_one_planet(client):
     # Act
     response = client.get("/planet/1")
@@ -33,3 +33,20 @@ def test_get_one_planet(client, three_saved_planets):
         "description": "red",
         "has_water": True
     }
+
+def test_get_all_planets(client, three_saved_planets):
+    response = client.get("/planet")
+    response_body = response.get_json()
+
+    assert response.status_code == 200
+    assert response_body == three_saved_planets
+   
+def test_post_a_planet(client):
+    response = client.post("/planet", json={
+        "name": "Venus",
+        "description": "yellow",
+        "has_water": True
+    })
+    response_body = response.get_json()
+    assert response.status_code == 201
+    assert response_body == "Planet Venus with id 1 successfully created"
